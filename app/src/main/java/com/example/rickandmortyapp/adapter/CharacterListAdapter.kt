@@ -40,7 +40,7 @@ class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.Character
         holder.characterName.text = character.name
         holder.characterStatus.text = character.species + " - " + character.status
         holder.characterImage.load(character.image) {
-            transformations(RoundedCornersTransformation())
+            transformations(RoundedCornersTransformation(30f))
         }
         if (character.status == "Dead") {
             holder.characterStatusImage.load(R.drawable.circle_red)
