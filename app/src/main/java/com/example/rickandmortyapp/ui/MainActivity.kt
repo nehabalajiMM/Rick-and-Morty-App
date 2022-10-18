@@ -5,15 +5,23 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.rickandmortyapp.R
+import com.example.rickandmortyapp.adapter.CharacterListAdapter
+import com.example.rickandmortyapp.databinding.ActivityMainBinding
 import com.example.rickandmortyapp.repository.Repository
 import com.example.rickandmortyapp.viewmodel.main.MainViewModel
 import com.example.rickandmortyapp.viewmodel.main.MainViewModelFactory
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val characterListAdapter = CharacterListAdapter()
+        binding.rvCharacterList.adapter = characterListAdapter
 
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
@@ -22,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.characterResponse.observe(
             this,
             Observer {
+                characterListAdapter.differ.submitList(it.results)
                 Log.d("RESPONSE", it.results.toString())
             }
         )
