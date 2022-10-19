@@ -2,4 +2,7 @@
     <string name="app_name">RickAndMortyApp</string>
     <string name="character_name">Character Name</string>
     <string name="human_alive">Human - Alive</string>
+    <string name="characters">Characters</string>
+    <string name="characterImage">CharacterImage</string>
+    <string name="alive_or_dead_status">alive_or_dead_status</string>
 </resources>

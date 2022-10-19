@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val characterListAdapter = CharacterListAdapter()
-        binding.rvCharacterList.adapter = characterListAdapter
+        binding.characterListAdapter = characterListAdapter
 
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
