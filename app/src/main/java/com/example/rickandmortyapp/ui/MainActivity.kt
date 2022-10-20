@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

@@ -7,9 +7,11 @@ import com.example.rickandmortyapp.api.RickAndMortyApi
 import com.example.rickandmortyapp.model.CharacterDataSource
 import com.example.rickandmortyapp.model.Result
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class Repository(private val api: RickAndMortyApi) {
-
+class Repository @Inject constructor(
+    private val api: RickAndMortyApi
+) {
     fun getCharacters(): Flow<PagingData<Result>> = Pager(
         config = PagingConfig(pageSize = 20, prefetchDistance = 2),
         pagingSourceFactory = { CharacterDataSource(api) }

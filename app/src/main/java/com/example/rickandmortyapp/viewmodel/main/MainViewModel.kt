@@ -5,10 +5,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.rickandmortyapp.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repository: Repository
+) : ViewModel() {
 
     private lateinit var _charactersFlow: Flow<PagingData<com.example.rickandmortyapp.model.Result>>
     val charactersFlow: Flow<PagingData<com.example.rickandmortyapp.model.Result>>

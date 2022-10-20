@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.FragmentDetailsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
     private var binding: FragmentDetailsBinding ? = null
