@@ -1,21 +1,24 @@
 package com.example.rickandmortyapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.RoundedCornersTransformation
+import com.example.rickandmortyapp.BR
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.CharacterListItemBinding
 import com.example.rickandmortyapp.model.Result
 
 class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.CharacterListViewHolder>() {
 
+    private lateinit var clickListener: ClickListener
+
     private val diffCallback = object : DiffUtil.ItemCallback<Result>() {
         override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
-            return oldItem.name == newItem.name
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
@@ -37,26 +40,30 @@ class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.Character
 
     override fun onBindViewHolder(holder: CharacterListViewHolder, position: Int) {
         val character = differ.currentList[position]
-        holder.characterName.text = character.name
-        holder.characterStatus.text = character.species + " - " + character.status
-        holder.characterImage.load(character.image) {
-            transformations(RoundedCornersTransformation(30f))
-        }
+        holder.bind(character)
         if (character.status == "Dead") {
-            holder.characterStatusImage.load(R.drawable.circle_red)
-        } else {
-            holder.characterStatusImage.load(R.drawable.circle_green)
+            holder.characterStatusImage.setColorFilter(ContextCompat.getColor(holder.characterStatusImage.context, R.color.red))
         }
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
+    override fun getItemCount(): Int = differ.currentList.size
+
+    interface ClickListener {
+        fun onClick(character: Result, view: View)
     }
 
-    inner class CharacterListViewHolder(binding: CharacterListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val characterImage = binding.ivCharacterImage
-        val characterName = binding.tvCharacterName
-        val characterStatus = binding.tvStatus
-        val characterStatusImage = binding.ivDeadAliveStatus
+    fun setItemClickListener(clickListener: ClickListener) {
+        this.clickListener = clickListener
+    }
+
+    inner class CharacterListViewHolder(val binding: CharacterListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        var characterStatusImage = binding.ivDeadAliveStatus
+
+        fun bind(character: Result) {
+            binding.setVariable(BR.character, character)
+            binding.root.setOnClickListener {
+                clickListener.onClick(character, it)
+            }
+        }
     }
 }

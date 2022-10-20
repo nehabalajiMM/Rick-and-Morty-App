@@ -11,3 +11,8 @@ fun ImageView.loadImage(characterPhoto: String?) {
         transformations(RoundedCornersTransformation(30f))
     }
 }
+
+@BindingAdapter("loadImageFromUrlWithoutTransformation")
+fun ImageView.loadImageWithoutTransformation(characterPhoto: String?) {
+    this.load(characterPhoto)
+}
