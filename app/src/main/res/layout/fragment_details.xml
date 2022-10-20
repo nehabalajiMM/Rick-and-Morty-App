@@ -76,7 +76,7 @@
 
         <TextView
             android:id="@+id/tv_character_details_species"
-            android:text="@{@string/character_name_detail(character.species)}"
+            android:text="@{@string/character_species_detail(character.species)}"
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_8dp"
