@@ -46,7 +46,7 @@
 
         <TextView
             android:id="@+id/tv_character_details_name"
-            android:text="Name: @{character.name}"
+            android:text="@{@string/character_name_detail(character.name)}"
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_8dp"
@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/tv_character_details_gender"
-            setGender="@{character.gender}"
+            android:text="@{@string/character_gender_detail(character.gender)}"
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_8dp"
@@ -76,7 +76,7 @@
 
         <TextView
             android:id="@+id/tv_character_details_species"
-            setSpecies="@{character.species}"
+            android:text="@{@string/character_name_detail(character.species)}"
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_8dp"

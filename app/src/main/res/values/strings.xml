@@ -6,4 +6,7 @@
     <string name="characterImage">CharacterImage</string>
     <string name="alive_or_dead_status">alive_or_dead_status</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="character_name_detail">Name: %1$s</string>
+    <string name="character_gender_detail">Gender: %1$s</string>
+    <string name="character_species_detail">Species: %1$s</string>
 </resources>
