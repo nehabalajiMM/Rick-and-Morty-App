@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyapp.BR
@@ -12,11 +12,11 @@ import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.CharacterListItemBinding
 import com.example.rickandmortyapp.model.Result
 
-class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.CharacterListViewHolder>() {
+class CharacterListAdapter : PagingDataAdapter<Result, CharacterListAdapter.CharacterListViewHolder>(diffCallback = DiffCallback) {
 
     private lateinit var clickListener: ClickListener
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Result>() {
+    object DiffCallback : DiffUtil.ItemCallback<Result>() {
         override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem.id == newItem.id
         }
@@ -25,8 +25,6 @@ class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.Character
             return oldItem == newItem
         }
     }
-
-    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterListViewHolder {
         return CharacterListViewHolder(
@@ -39,14 +37,12 @@ class CharacterListAdapter : RecyclerView.Adapter<CharacterListAdapter.Character
     }
 
     override fun onBindViewHolder(holder: CharacterListViewHolder, position: Int) {
-        val character = differ.currentList[position]
-        holder.bind(character)
+        val character = getItem(position)
+        holder.bind(character!!)
         if (character.status == "Dead") {
             holder.characterStatusImage.setColorFilter(ContextCompat.getColor(holder.characterStatusImage.context, R.color.red))
         }
     }
-
-    override fun getItemCount(): Int = differ.currentList.size
 
     interface ClickListener {
         fun onClick(character: Result, view: View)

@@ -1,21 +1,22 @@
 package com.example.rickandmortyapp.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.adapter.CharacterListAdapter
+import com.example.rickandmortyapp.api.RetrofitInstance
 import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
 import com.example.rickandmortyapp.model.Result
 import com.example.rickandmortyapp.repository.Repository
 import com.example.rickandmortyapp.viewmodel.main.MainViewModel
 import com.example.rickandmortyapp.viewmodel.main.MainViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
 
 class CharacterListFragment : Fragment() {
 
@@ -44,17 +45,14 @@ class CharacterListFragment : Fragment() {
         characterListAdapter.setItemClickListener(clickListener)
         binding?.characterListAdapter = characterListAdapter
 
-        val repository = Repository()
+        val repository = Repository(RetrofitInstance.api)
         val viewModelFactory = MainViewModelFactory(repository)
         val viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-        viewModel.getCharacters()
-        viewModel.characterResponse.observe(
-            viewLifecycleOwner,
-            Observer {
-                characterListAdapter.differ.submitList(it.results)
-                Log.d("RESPONSE", it.results.toString())
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.charactersFlow.collectLatest {
+                characterListAdapter.submitData(it)
             }
-        )
+        }
     }
 
     override fun onDestroyView() {
