@@ -5,22 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.adapter.CharacterListAdapter
-import com.example.rickandmortyapp.api.RetrofitInstance
 import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
-import com.example.rickandmortyapp.model.Result
-import com.example.rickandmortyapp.repository.Repository
+import com.example.rickandmortyapp.model.CharacterResult
 import com.example.rickandmortyapp.viewmodel.main.MainViewModel
-import com.example.rickandmortyapp.viewmodel.main.MainViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class CharacterListFragment : Fragment() {
 
     private var binding: FragmentCharacterListBinding? = null
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +36,7 @@ class CharacterListFragment : Fragment() {
         binding = FragmentCharacterListBinding.bind(view)
 
         val clickListener = object : CharacterListAdapter.ClickListener {
-            override fun onClick(character: Result, view: View) {
+            override fun onClick(character: CharacterResult, view: View) {
                 val action = CharacterListFragmentDirections.actionCharacterListFragmentToDetailsFragment(character)
                 Navigation.findNavController(view).navigate(action)
             }
@@ -45,9 +45,6 @@ class CharacterListFragment : Fragment() {
         characterListAdapter.setItemClickListener(clickListener)
         binding?.characterListAdapter = characterListAdapter
 
-        val repository = Repository(RetrofitInstance.api)
-        val viewModelFactory = MainViewModelFactory(repository)
-        val viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.charactersFlow.collectLatest {
                 characterListAdapter.submitData(it)

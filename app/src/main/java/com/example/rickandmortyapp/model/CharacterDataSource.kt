@@ -3,11 +3,14 @@ package com.example.rickandmortyapp.model
 import android.net.Uri
 import androidx.paging.PagingSource
 import com.example.rickandmortyapp.api.RickAndMortyApi
+import javax.inject.Inject
 
 private const val CHARACTER_STARTING_PAGE_INDEX = 1
 
-class CharacterDataSource(private val api: RickAndMortyApi) : PagingSource<Int, Result>() {
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
+class CharacterDataSource @Inject constructor(
+    private val api: RickAndMortyApi
+) : PagingSource<Int, CharacterResult>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterResult> {
         return try {
             val currentCharacterList = params.key ?: CHARACTER_STARTING_PAGE_INDEX
             val response = api.getCharacters(currentCharacterList)

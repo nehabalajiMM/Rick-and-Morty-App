@@ -18,7 +18,7 @@
         android:label="DetailsFragment" >
         <argument
             android:name="character"
-            app:argType="com.example.rickandmortyapp.model.Result" />
+            app:argType="com.example.rickandmortyapp.model.CharacterResult" />
         <action
             android:id="@+id/action_detailsFragment_to_characterListFragment"
             app:destination="@id/characterListFragment" />

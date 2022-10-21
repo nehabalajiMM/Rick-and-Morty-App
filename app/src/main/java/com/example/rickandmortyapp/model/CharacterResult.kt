@@ -2,7 +2,7 @@ package com.example.rickandmortyapp.model
 
 import java.io.Serializable
 
-data class Result(
+data class CharacterResult(
     val created: String,
     val episode: List<String>,
     val gender: String,
