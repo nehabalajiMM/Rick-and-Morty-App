@@ -15,15 +15,14 @@ class MainViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private lateinit var _charactersFlow: Flow<PagingData<com.example.rickandmortyapp.model.Result>>
-    val charactersFlow: Flow<PagingData<com.example.rickandmortyapp.model.Result>>
-        get() = _charactersFlow
+    lateinit var charactersFlow: Flow<PagingData<com.example.rickandmortyapp.model.CharacterResult>>
+        private set
 
     init {
         getCharacters()
     }
 
-    fun getCharacters() = viewModelScope.launch {
-        _charactersFlow = repository.getCharacters().cachedIn(viewModelScope)
+    private fun getCharacters() = viewModelScope.launch {
+        charactersFlow = repository.getCharacters().cachedIn(viewModelScope)
     }
 }

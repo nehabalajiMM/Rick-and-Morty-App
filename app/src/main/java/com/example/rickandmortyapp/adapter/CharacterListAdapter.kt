@@ -10,18 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyapp.BR
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.CharacterListItemBinding
-import com.example.rickandmortyapp.model.Result
+import com.example.rickandmortyapp.model.CharacterResult
 
-class CharacterListAdapter : PagingDataAdapter<Result, CharacterListAdapter.CharacterListViewHolder>(diffCallback = DiffCallback) {
+class CharacterListAdapter : PagingDataAdapter<CharacterResult, CharacterListAdapter.CharacterListViewHolder>(diffCallback = DiffCallback) {
 
     private lateinit var clickListener: ClickListener
 
-    object DiffCallback : DiffUtil.ItemCallback<Result>() {
-        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+    object DiffCallback : DiffUtil.ItemCallback<CharacterResult>() {
+        override fun areItemsTheSame(oldItem: CharacterResult, newItem: CharacterResult): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+        override fun areContentsTheSame(oldItem: CharacterResult, newItem: CharacterResult): Boolean {
             return oldItem == newItem
         }
     }
@@ -45,7 +45,7 @@ class CharacterListAdapter : PagingDataAdapter<Result, CharacterListAdapter.Char
     }
 
     interface ClickListener {
-        fun onClick(character: Result, view: View)
+        fun onClick(character: CharacterResult, view: View)
     }
 
     fun setItemClickListener(clickListener: ClickListener) {
@@ -55,7 +55,7 @@ class CharacterListAdapter : PagingDataAdapter<Result, CharacterListAdapter.Char
     inner class CharacterListViewHolder(val binding: CharacterListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         var characterStatusImage = binding.ivDeadAliveStatus
 
-        fun bind(character: Result) {
+        fun bind(character: CharacterResult) {
             binding.setVariable(BR.character, character)
             binding.root.setOnClickListener {
                 clickListener.onClick(character, it)

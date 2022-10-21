@@ -9,8 +9,8 @@ private const val CHARACTER_STARTING_PAGE_INDEX = 1
 
 class CharacterDataSource @Inject constructor(
     private val api: RickAndMortyApi
-) : PagingSource<Int, Result>() {
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
+) : PagingSource<Int, CharacterResult>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterResult> {
         return try {
             val currentCharacterList = params.key ?: CHARACTER_STARTING_PAGE_INDEX
             val response = api.getCharacters(currentCharacterList)
