@@ -39,14 +39,15 @@
             android:layout_marginStart="@dimen/dimen_8dp"
             android:layout_marginTop="@dimen/dimen_8dp"
             android:layout_marginEnd="@dimen/dimen_8dp"
-            app:layout_constraintBottom_toTopOf="@+id/rv_character_list"
-            app:queryHint="Search a character..."
+            android:layout_marginBottom="8dp"
             android:background="@drawable/search_view_bg"
             android:padding="@dimen/dimen_1dp"
             app:iconifiedByDefault="false"
+            app:layout_constraintBottom_toTopOf="@+id/rv_character_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_characters" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_characters"
+            app:queryHint="Search a character..." />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_character_list"

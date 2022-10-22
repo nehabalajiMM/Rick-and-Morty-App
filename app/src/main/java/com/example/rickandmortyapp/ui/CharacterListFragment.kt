@@ -16,6 +16,7 @@ import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.adapter.CharacterListAdapter
 import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
 import com.example.rickandmortyapp.model.CharacterResult
+import com.example.rickandmortyapp.util.GridSpacingItemDecoration
 import com.example.rickandmortyapp.viewmodel.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -48,6 +49,7 @@ class CharacterListFragment : Fragment() {
             }
         }
 
+        binding?.rvCharacterList?.addItemDecoration(GridSpacingItemDecoration(3, 30))
         characterListAdapter = CharacterListAdapter()
         characterListAdapter.setItemClickListener(clickListener)
         binding?.characterListAdapter = characterListAdapter
