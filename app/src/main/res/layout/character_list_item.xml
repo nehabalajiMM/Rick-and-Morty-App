@@ -23,15 +23,16 @@
             <ImageView
                 android:id="@+id/iv_character_image"
                 loadImageFromUrl="@{character.image}"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/characterImage"
                 android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                tools:srcCompat="@tools:sample/avatars"
                 app:layout_constraintBottom_toTopOf="@+id/tv_character_name"
                 app:layout_constraintEnd_toStartOf="@+id/gl_right"
                 app:layout_constraintStart_toStartOf="@+id/gl_left"
-                app:layout_constraintTop_toTopOf="@+id/gl_top"
-                tools:srcCompat="@tools:sample/avatars" />
+                app:layout_constraintTop_toTopOf="@+id/gl_top" />
 
             <TextView
                 android:id="@+id/tv_status"
