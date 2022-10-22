@@ -12,8 +12,8 @@ import javax.inject.Inject
 class Repository @Inject constructor(
     private val api: RickAndMortyApi
 ) {
-    fun getCharacters(): Flow<PagingData<CharacterResult>> = Pager(
+    fun getCharacters(name: String? = null): Flow<PagingData<CharacterResult>> = Pager(
         config = PagingConfig(pageSize = 20, prefetchDistance = 2),
-        pagingSourceFactory = { CharacterDataSource(api) }
+        pagingSourceFactory = { CharacterDataSource(api, name) }
     ).flow
 }

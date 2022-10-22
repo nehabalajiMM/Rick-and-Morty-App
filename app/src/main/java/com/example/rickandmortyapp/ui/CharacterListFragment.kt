@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.paging.PagingData
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.adapter.CharacterListAdapter
 import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
@@ -21,6 +23,7 @@ class CharacterListFragment : Fragment() {
 
     private var binding: FragmentCharacterListBinding? = null
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var characterListAdapter: CharacterListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +44,8 @@ class CharacterListFragment : Fragment() {
                 Navigation.findNavController(view).navigate(action)
             }
         }
-        val characterListAdapter = CharacterListAdapter()
+
+        characterListAdapter = CharacterListAdapter()
         characterListAdapter.setItemClickListener(clickListener)
         binding?.characterListAdapter = characterListAdapter
 
@@ -50,6 +54,24 @@ class CharacterListFragment : Fragment() {
                 characterListAdapter.submitData(it)
             }
         }
+
+        binding?.svSearchCharacter?.clearFocus()
+        binding?.svSearchCharacter?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.getSearchedCharacters(newText.toString())
+                characterListAdapter.submitData(lifecycle, PagingData.empty())
+                viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                    viewModel.searchedCharactersFlow.collectLatest {
+                        characterListAdapter.submitData(it)
+                    }
+                }
+                return true
+            }
+        })
     }
 
     override fun onDestroyView() {
