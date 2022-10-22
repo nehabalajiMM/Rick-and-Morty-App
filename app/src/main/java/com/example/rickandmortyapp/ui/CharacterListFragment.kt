@@ -57,6 +57,7 @@ class CharacterListFragment : Fragment() {
         lifecycleScope.launch {
             characterListAdapter.loadStateFlow.collectLatest { loadStates ->
                 binding?.progressBar?.isVisible = loadStates.refresh is LoadState.Loading
+                binding?.tvErrorMessage?.isVisible = loadStates.refresh is LoadState.Error
             }
         }
 
