@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.adapter.CharacterListAdapter
@@ -17,6 +19,7 @@ import com.example.rickandmortyapp.model.CharacterResult
 import com.example.rickandmortyapp.viewmodel.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharacterListFragment : Fragment() {
@@ -49,6 +52,12 @@ class CharacterListFragment : Fragment() {
         characterListAdapter.setItemClickListener(clickListener)
         binding?.characterListAdapter = characterListAdapter
 
+        lifecycleScope.launch {
+            characterListAdapter.loadStateFlow.collectLatest { loadStates ->
+                binding?.progressBar?.isVisible = loadStates.refresh is LoadState.Loading
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.charactersFlow.collectLatest {
                 characterListAdapter.submitData(it)
@@ -65,7 +74,7 @@ class CharacterListFragment : Fragment() {
                 viewModel.getSearchedCharacters(newText.toString())
                 characterListAdapter.submitData(lifecycle, PagingData.empty())
                 viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-                    viewModel.searchedCharactersFlow.collectLatest {
+                    viewModel.searchedCharactersFlow?.collectLatest {
                         characterListAdapter.submitData(it)
                     }
                 }
