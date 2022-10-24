@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.FragmentDetailsBinding
@@ -32,7 +33,9 @@ class DetailsFragment : Fragment() {
 
         val activity = activity as AppCompatActivity
         activity.setSupportActionBar(binding?.toolbar)
-        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding?.toolbar?.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
         binding?.character = args.character
     }
 

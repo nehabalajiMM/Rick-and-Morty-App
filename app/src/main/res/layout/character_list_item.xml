@@ -40,7 +40,7 @@
                 android:layout_marginStart="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{character.species}"
+                android:text="@{@string/character_status_and_species(character.status, character.species)}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/gl_bottom"
                 app:layout_constraintEnd_toStartOf="@+id/gl_right"
@@ -101,6 +101,7 @@
                 app:layout_constraintStart_toStartOf="@+id/gl_left"
                 app:layout_constraintTop_toTopOf="@+id/tv_status"
                 app:srcCompat="@drawable/circle_green"
+                setImageColor="@{character.status}"
                 android:contentDescription="@string/alive_or_dead_status" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
