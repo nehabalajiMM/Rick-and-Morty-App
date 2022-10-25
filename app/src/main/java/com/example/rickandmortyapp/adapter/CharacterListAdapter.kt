@@ -3,12 +3,10 @@ package com.example.rickandmortyapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyapp.BR
-import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.CharacterListItemBinding
 import com.example.rickandmortyapp.model.CharacterResult
 
@@ -39,9 +37,6 @@ class CharacterListAdapter : PagingDataAdapter<CharacterResult, CharacterListAda
     override fun onBindViewHolder(holder: CharacterListViewHolder, position: Int) {
         val character = getItem(position)
         holder.bind(character!!)
-        if (character.status == "Dead") {
-            holder.characterStatusImage.setColorFilter(ContextCompat.getColor(holder.characterStatusImage.context, R.color.red))
-        }
     }
 
     interface ClickListener {
