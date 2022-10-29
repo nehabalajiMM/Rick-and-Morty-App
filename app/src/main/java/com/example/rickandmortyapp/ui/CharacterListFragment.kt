@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +19,8 @@ import com.example.rickandmortyapp.model.CharacterResult
 import com.example.rickandmortyapp.util.GridSpacingItemDecoration
 import com.example.rickandmortyapp.viewmodel.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -67,23 +69,22 @@ class CharacterListFragment : Fragment() {
             }
         }
 
-        binding?.svSearchCharacter?.clearFocus()
-        binding?.svSearchCharacter?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+        var searchJob: Job? = null
+        binding?.tfSearchCharacter?.editText?.doOnTextChanged { text, _, _, _ ->
+            if (searchJob?.isActive != false) {
+                searchJob?.cancel()
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.getSearchedCharacters(newText.toString())
-                characterListAdapter.submitData(lifecycle, PagingData.empty())
-                viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-                    viewModel.searchedCharactersFlow?.collectLatest {
+            searchJob = viewLifecycleOwner.lifecycleScope.launch {
+                delay(700)
+                while (searchJob?.isActive == true) {
+                    characterListAdapter.submitData(PagingData.empty())
+                    viewModel.getSearchedCharacters(text.toString())
+                    viewModel.searchedCharactersFlow.collectLatest {
                         characterListAdapter.submitData(it)
                     }
                 }
-                return true
             }
-        })
+        }
     }
 
     override fun onDestroyView() {

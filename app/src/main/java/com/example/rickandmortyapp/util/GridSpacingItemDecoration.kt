@@ -16,6 +16,6 @@ class GridSpacingItemDecoration(private val spanCount: Int, private val spacing:
         val column = position % spanCount
         outRect.left = spacing - column * spacing / spanCount
         outRect.right = (column + 1) * spacing / spanCount
-        outRect.bottom = spacing
+        outRect.bottom = spacing - 6
     }
 }
