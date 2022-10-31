@@ -27,27 +27,35 @@
             android:textColor="@android:color/holo_blue_light"
             android:textSize="@dimen/dimen_36sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/sv_search_character"
+            app:layout_constraintBottom_toTopOf="@+id/tf_search_character"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/sv_search_character"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tf_search_character"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_8dp"
             android:layout_marginTop="@dimen/dimen_8dp"
             android:layout_marginEnd="@dimen/dimen_8dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/search_view_bg"
-            android:padding="@dimen/dimen_1dp"
-            app:iconifiedByDefault="false"
+            android:hint="@string/search_a_character"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintBottom_toTopOf="@+id/rv_character_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_characters"
-            app:queryHint="Search a character..." />
+            app:startIconDrawable="@drawable/ic_baseline_search_24"
+            app:endIconMode="clear_text"
+            app:endIconDrawable="@drawable/ic_close"
+            app:layout_constraintTop_toBottomOf="@+id/tv_characters" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_character_list"
@@ -59,7 +67,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sv_search_character"
+            app:layout_constraintTop_toBottomOf="@+id/tf_search_character"
             app:spanCount="3"
             tools:listitem="@layout/character_list_item" />
 
@@ -78,7 +86,7 @@
             android:id="@+id/tv_error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Error occurred"
+            android:text="@string/error_occurred"
             android:textColor="@color/red"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
