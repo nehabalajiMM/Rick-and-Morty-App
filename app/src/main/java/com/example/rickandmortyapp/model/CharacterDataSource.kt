@@ -2,6 +2,7 @@ package com.example.rickandmortyapp.model
 
 import android.net.Uri
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.example.rickandmortyapp.api.RickAndMortyApi
 import javax.inject.Inject
 
@@ -37,5 +38,9 @@ class CharacterDataSource @Inject constructor(
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, CharacterResult>): Int? {
+        return state.anchorPosition
     }
 }

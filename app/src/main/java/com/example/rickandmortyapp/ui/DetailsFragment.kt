@@ -48,13 +48,6 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailsBinding.bind(view)
 
-//        val activity = activity as AppCompatActivity
-//        activity.setSupportActionBar(binding?.toolbar)
-//        binding?.toolbar?.setNavigationOnClickListener {
-//            findNavController().navigateUp()
-//        }
-//        binding?.character = args.character
-
         binding?.composeView?.setContent {
             MaterialTheme {
                 Column {
