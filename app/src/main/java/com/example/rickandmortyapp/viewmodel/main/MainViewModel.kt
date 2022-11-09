@@ -8,6 +8,8 @@ import androidx.paging.PagingData
 import com.example.rickandmortyapp.model.CharacterResult
 import com.example.rickandmortyapp.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +37,14 @@ class MainViewModel @Inject constructor(
         Log.v("Characters", _characterItemList.value.asLiveData().value.toString())
     }
 
+    var searchJob: Job? = null
     fun getSearchedCharacters(name: String) {
-        _searchedCharactersList.value = repository.getCharacters(name)
+        if (searchJob?.isActive != false) {
+            searchJob?.cancel()
+        }
+        searchJob = viewModelScope.launch {
+            delay(700)
+            _characterItemList.value = repository.getCharacters(name)
+        }
     }
 }
