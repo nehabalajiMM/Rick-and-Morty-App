@@ -1,8 +1,6 @@
 package com.example.rickandmortyapp.model
 
-import java.io.Serializable
-
-data class CharacterResult(
+data class Character(
     val created: String,
     val episode: List<String>,
     val gender: String,
@@ -15,4 +13,4 @@ data class CharacterResult(
     val status: String,
     val type: String,
     val url: String
-) : Serializable
+)

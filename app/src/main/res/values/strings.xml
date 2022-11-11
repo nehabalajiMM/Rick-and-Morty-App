@@ -12,4 +12,5 @@
     <string name="character_status_and_species">%1$s - %2$s</string>
     <string name="search_a_character">Search a character...</string>
     <string name="error_occurred">Error occurred</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
