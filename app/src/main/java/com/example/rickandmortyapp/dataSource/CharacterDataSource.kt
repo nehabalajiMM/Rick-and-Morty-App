@@ -1,22 +1,24 @@
-package com.example.rickandmortyapp.model
+package com.example.rickandmortyapp.dataSource
 
 import android.net.Uri
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.rickandmortyapp.api.RickAndMortyApi
+import com.example.rickandmortyapp.model.Character
 import javax.inject.Inject
-
-private const val CHARACTER_STARTING_PAGE_INDEX = 1
 
 class CharacterDataSource @Inject constructor(
     private val api: RickAndMortyApi,
     private val name: String? = null
-) : PagingSource<Int, CharacterResult>() {
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterResult> {
-        return try {
-            val currentCharacterList = params.key ?: CHARACTER_STARTING_PAGE_INDEX
+) : PagingSource<Int, Character>() {
 
-            val response = if (name.isNullOrEmpty()) {
+    private val startingPageIndex = 1
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
+        return try {
+            val currentCharacterList = params.key ?: startingPageIndex
+
+            val response = if (name.isNullOrBlank()) {
                 api.getCharacters(currentCharacterList)
             } else {
                 api.getCharacters(currentCharacterList, name)
@@ -40,7 +42,7 @@ class CharacterDataSource @Inject constructor(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, CharacterResult>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Character>): Int? {
         return state.anchorPosition
     }
 }

@@ -1,8 +1,7 @@
 package com.example.rickandmortyapp.di
 
 import com.example.rickandmortyapp.api.RickAndMortyApi
-import com.example.rickandmortyapp.repository.Repository
-import com.example.rickandmortyapp.util.Constants.Companion.BASE_URL
+import com.example.rickandmortyapp.api.RickAndMortyApiInstance.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,8 +29,4 @@ class AppModule {
             .build()
             .create(RickAndMortyApi::class.java)
     }
-
-    @Singleton
-    @Provides
-    fun provideRepository(api: RickAndMortyApi) = Repository(api)
 }

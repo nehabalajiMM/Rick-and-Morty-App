@@ -1,11 +1,9 @@
-package com.example.rickandmortyapp.viewmodel.main
+package com.example.rickandmortyapp.ui.screens.characterList.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import com.example.rickandmortyapp.model.CharacterResult
+import com.example.rickandmortyapp.model.Character
 import com.example.rickandmortyapp.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -18,15 +16,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class CharacterListViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val _characterItemList = MutableStateFlow<Flow<PagingData<CharacterResult>>>(emptyFlow())
+    private val _characterItemList = MutableStateFlow<Flow<PagingData<Character>>>(emptyFlow())
     val characterItemList = _characterItemList.asStateFlow()
-
-    private val _searchedCharactersList = MutableStateFlow<Flow<PagingData<CharacterResult>>>(emptyFlow())
-    val searchedCharactersList = _searchedCharactersList.asStateFlow()
 
     init {
         getCharacters()
@@ -34,7 +29,6 @@ class MainViewModel @Inject constructor(
 
     private fun getCharacters() = viewModelScope.launch {
         _characterItemList.value = repository.getCharacters()
-        Log.v("Characters", _characterItemList.value.asLiveData().value.toString())
     }
 
     var searchJob: Job? = null
