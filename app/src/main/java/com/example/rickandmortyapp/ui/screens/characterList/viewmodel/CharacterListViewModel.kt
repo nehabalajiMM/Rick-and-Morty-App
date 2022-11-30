@@ -27,7 +27,7 @@ class CharacterListViewModel @Inject constructor(
         getCharacters()
     }
 
-    private fun getCharacters() = viewModelScope.launch {
+    fun getCharacters() = viewModelScope.launch {
         _characterItemList.value = repository.getCharacters()
     }
 

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -40,5 +41,6 @@ fun SearchCharacterField(text: String, onChange: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp).padding(bottom = 8.dp)
+            .testTag("searchTextFieldTag")
     )
 }
